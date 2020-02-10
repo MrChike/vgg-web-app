@@ -25,7 +25,9 @@ SECRET_KEY = '_iudcbb*6-madc8u4xn+)zl@mb345x4=(f)l9!uv#9(!43m1t3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'vgg-app.herokuapp.com'
+]
 
 
 # Application definition
