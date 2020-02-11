@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'projects',
+    'rest_framework',  # Tut 1 - Serialization
+    'rest_framework.authtoken',
+    'projects',  # Tut 1 - Serialization
 ]
 
 MIDDLEWARE = [
@@ -125,3 +127,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 django_heroku.settings(locals())
+
+AUTH_USER_MODEL = "projects.UserProfile"
