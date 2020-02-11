@@ -2,28 +2,27 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from django.conf import settings
 
 
 class UserProfileManager(BaseUserManager):
-    """Manager for user profiles"""
+    # User Profile Manager
 
     def create_user(self, email, name, password=None):
-        """Create a new user profile"""
+        # Create New User
         if not email:
             raise ValueError('Users must have an email address')
 
         email = self.normalize_email(email)
         user = self.model(email=email, name=name,)
-
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
     def create_superuser(self, email, name, password):
-        """Create and save a new superuser with given details"""
+        # Create Superuser with requirements
         user = self.create_user(email, name, password)
-
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
@@ -32,7 +31,6 @@ class UserProfileManager(BaseUserManager):
 
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
-    """Database model for users in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
@@ -47,10 +45,23 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """Retrieve full name for user"""
         return self.name
 
-    def get_short_name(self):
-        """Retrieve short name of user"""
-        return self.name
+    # def get_short_name(self):
+    #     """Retrieve short name of user"""
+    #     return self.name
 
     def __str__(self):
-        """Return string representation of user"""
         return self.email
+
+
+class Project(models.Model):
+    """Profile status update"""
+    user_profile = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=100, blank=True)
+    description = models.TextField()  # Tut 1 - Serialization
+    completed = models.BooleanField(default=False)  # Tut 1 - Serialization
+
+    def __str__(self):
+        return self.name

@@ -1,8 +1,8 @@
 from projects import models
 from rest_framework import serializers
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
-    """Serializes a user profile object"""
 
     class Meta:
         model = models.UserProfile
@@ -23,3 +23,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Project
+        fields = ('id', 'user_profile', 'name', 'description', 'completed')
+        extra_kwargs = {
+            'user_profile': {
+                'read_only': True
+            }
+        }
