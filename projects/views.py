@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import LimitOffsetPagination
 
 
 class AuthenticateUserView(ObtainAuthToken):
@@ -33,9 +34,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     serializer_class = serializers.ProjectSerializer
     queryset = models.Project.objects.all()
-    permission_classes = (
-        permissions.UpdateOwnContent, IsAuthenticated
-    )
+    permission_classes = (permissions.UpdateOwnContent, IsAuthenticated)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'description',)
+    pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
         # Grant project permission to logged in user
