@@ -28,9 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',  # Tut 1 - Serialization
+    'rest_framework',  
     'rest_framework.authtoken',
-    'projects',  # Tut 1 - Serialization
+    'projects',  
 ]
 
 MIDDLEWARE = [
