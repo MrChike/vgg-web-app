@@ -12,6 +12,9 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import LimitOffsetPagination
+from .serializers import ProjectSerializer
+from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 
 
 class AuthenticateUserView(ObtainAuthToken):
@@ -38,7 +41,20 @@ class ProjectViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'description',)
     pagination_class = LimitOffsetPagination
+    parser_classes = (JSONParser, FormParser, MultiPartParser)
 
     def perform_create(self, serializer):
         # Grant project permission to logged in user
         serializer.save(user_profile=self.request.user)
+
+    @action(detail=True, methods=['put'])
+    def file(self, request, pk=None):
+        user = self.get_object()
+        file = user.file
+        serializer = ProjectSerializer(file, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)

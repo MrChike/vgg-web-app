@@ -14,6 +14,5 @@ router.register('projects', views.ProjectViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('users/register', views.CreateUserView.as_view()),
     path('users/auth', views.AuthenticateUserView.as_view()),
 ]
