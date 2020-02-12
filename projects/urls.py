@@ -8,6 +8,9 @@ from projects import views
 router = routers.DefaultRouter()
 router.register('users/register', views.UserProfileViewSet)
 router.register('projects', views.ProjectViewSet)
+# router.register(
+#     'users/auth', views.AuthenticateUserView.as_view(), basename='users/auth')
+
 
 urlpatterns = [
     path('', include(router.urls)),

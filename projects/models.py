@@ -59,7 +59,7 @@ class Project(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-    name = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField()  # Tut 1 - Serialization
     completed = models.BooleanField(default=False)  # Tut 1 - Serialization
 
