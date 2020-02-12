@@ -28,9 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',  
+    'rest_framework',
     'rest_framework.authtoken',
-    'projects',  
+    'projects',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +112,7 @@ AUTH_USER_MODEL = "projects.UserProfile"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+        'rest_framework.permissions.IsAuthenticated'
     ],
 }
 
