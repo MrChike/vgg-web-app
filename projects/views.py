@@ -1,3 +1,6 @@
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
+from rest_framework.decorators import action
+from .serializers import ProjectSerializer, ActionSerializer
 from django.shortcuts import render
 from projects import models
 from projects import permissions
@@ -12,9 +15,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import LimitOffsetPagination
-from .serializers import ProjectSerializer
-from rest_framework.decorators import action
-from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
+from.models import Action
 
 
 class AuthenticateUserView(ObtainAuthToken):
@@ -48,13 +49,18 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer.save(user_profile=self.request.user)
 
     @action(detail=True, methods=['put'])
-    def file(self, request, pk=None):
+    def actions(self, request, pk=None):
         user = self.get_object()
-        file = user.file
-        serializer = ProjectSerializer(file, data=request.data)
+        user_stories = user.user_stories
+        serializer = ProjectSerializer(user_stories, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         else:
             return Response(serializer.errors, status=400)
+
+
+class ActionViewset(viewsets.ModelViewSet):
+    queryset = Action.objects.all()
+    serializer_class = ActionSerializer

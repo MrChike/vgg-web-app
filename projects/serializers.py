@@ -30,9 +30,15 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Project
         fields = ('id', 'user_profile', 'name',
-                  'description', 'completed', 'file')
+                  'description', 'completed', 'user_stories')
         extra_kwargs = {
             'user_profile': {
                 'read_only': True
             }
         }
+
+
+class ActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Action
+        fields = ['project_id', 'description', 'note']

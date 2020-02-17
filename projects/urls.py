@@ -6,11 +6,12 @@ from projects import views
 
 
 router = routers.DefaultRouter()
-router.register('users/register', views.UserProfileViewSet)
-router.register('projects', views.ProjectViewSet)
+router.register('api/users/register', views.UserProfileViewSet)
+router.register('api/projects', views.ProjectViewSet)
+router.register('api/actions', views.ActionViewset)
 
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('users/auth', views.AuthenticateUserView.as_view()),
+    path('api/users/auth', views.AuthenticateUserView.as_view()),
 ]

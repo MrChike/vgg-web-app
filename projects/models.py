@@ -57,8 +57,14 @@ class Project(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()  # Tut 1 - Serialization
     completed = models.BooleanField(default=False)  # Tut 1 - Serialization
-    file = models.FileField(upload_to='files/%Y/%m/%d/',
-                            max_length=255, null=True, blank=True)
+    user_stories = models.FileField(upload_to='uploads',
+                                    max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+
+class Action(models.Model):
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    description = models.TextField()
+    note = models.TextField()
